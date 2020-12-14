@@ -5,6 +5,10 @@ import reactor.core.publisher.Flux;
 
 public class ProductTestUtil {
 
+    public static Flux<Product> emptyProductFlux() {
+        return Flux.empty();
+    }
+
     public static Flux<Product> createProducts() {
         Product product1 = Product.builder().id("1234").description("some product description1").fileName("some_file1.jpeg").height(100).width(100).price(240.0).rating(1).title("some product1").build();
         Product product2 = Product.builder().id("1235").description("some product description2").fileName("some_file2.jpeg").height(200).width(200).price(241.0).rating(2).title("some product2").build();

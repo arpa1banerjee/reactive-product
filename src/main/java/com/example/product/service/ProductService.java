@@ -38,7 +38,7 @@ public class ProductService {
         log.info("fetching all products from DB");
         return productRepository.findAll()
                 .log()
-                .onErrorMap(ex -> new ProductDBException("Exception occurred while doing operation in product db", ex))
+                .onErrorMap(ex -> new ProductDBException("Exception occurred ", ex))
                 .switchIfEmpty(Flux.error(new ProductNotFoundException("No products found")));
     }
 
