@@ -1,0 +1,23 @@
+logging:
+  level:
+    root: info
+server:
+  port: 8081
+spring:
+  application:
+    name: product-service
+  couchbase:
+    bucket:
+      name: product
+    username: Administrator
+    password: admin123
+    bootstrap-hosts:
+      - localhost:8091
+  data:
+    couchbase:
+      repositories:
+        type: REACTIVE
+      auto-index: true
+
+
+
