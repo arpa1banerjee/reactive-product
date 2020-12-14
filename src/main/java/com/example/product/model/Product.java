@@ -2,13 +2,11 @@ package com.example.product.model;
 
 import com.couchbase.client.java.repository.annotation.Field;
 import com.fasterxml.jackson.annotation.JsonAlias;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.couchbase.core.mapping.Document;
 
+@Builder
 @Data
 @ToString
 @AllArgsConstructor
