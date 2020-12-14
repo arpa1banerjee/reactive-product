@@ -1,8 +1,11 @@
 package com.example.product.service;
 
+import com.example.product.dto.ProductRequest;
 import com.example.product.exception.ProductDBException;
 import com.example.product.exception.ProductNotFoundException;
+import com.example.product.mapper.ProductRequestMapper;
 import com.example.product.model.Product;
+import com.example.product.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -14,7 +17,7 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class ProductService {
 
-    private final com.example.product.repository.ProductRepository productRepository;
+    private final ProductRepository productRepository;
 
     public void addProduct(Flux<Product> product) {
         productRepository.deleteAll().subscribe(null, null, () -> log.info("all data deleted"));
@@ -22,8 +25,16 @@ public class ProductService {
         savedProduct
                 .log()
                 .subscribe(data -> log.info(data.toString()),
-                        Throwable::printStackTrace,
+                        err -> log.error(err.getMessage()),
                         () -> log.info("All products has been saved in DB"));
+    }
+
+    public Mono<Product> addProduct(ProductRequest productRequest) {
+        Product product = ProductRequestMapper.INSTANCE.productDtoToProduct(productRequest);
+        log.info("product details formed {}",product.toString());
+        return productRepository.save(product)
+                .log()
+                .onErrorMap(ex -> new ProductDBException("Exception occurred", ex));
     }
 
     public Mono<Product> getProductById(String id) {

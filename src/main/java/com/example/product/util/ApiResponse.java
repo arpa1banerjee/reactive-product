@@ -1,6 +1,7 @@
 package com.example.product.util;
 
 import lombok.*;
+import reactor.core.publisher.Mono;
 
 @Getter
 @ToString
@@ -19,5 +20,9 @@ public class ApiResponse<T> {
 
     public static <T> ApiResponse<T> ofFailure(int code, String message) {
         return new ApiResponse<>(false, code, message, null);
+    }
+
+    public static <T> ApiResponse<T> ofFailure(int code, String message, T payload) {
+        return new ApiResponse<>(false, code, message, payload);
     }
 }

@@ -1,15 +1,15 @@
 package com.example.product.controller;
 
+import com.example.product.dto.ProductRequest;
 import com.example.product.model.Product;
 import com.example.product.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import javax.validation.Valid;
 
 @Slf4j
 @RestController
@@ -32,6 +32,11 @@ public class ProductControllerV1 {
     @GetMapping("/rating/{type}/{val}")
     public Flux<Product> getProductsWithRating(@PathVariable String type, @PathVariable int val) {
         return productService.getProductsWithRating(type, val);
+    }
+
+    @PostMapping("/create")
+    public Mono<Product> saveProduct(@Valid @RequestBody ProductRequest productRequest) {
+        return productService.addProduct(productRequest);
     }
 
 }
