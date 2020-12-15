@@ -18,12 +18,12 @@ import java.util.stream.Collectors;
 @ControllerAdvice
 public class RestExceptionHandler {
 
-    private static final String EXCEPTION_MSG = "exception details {0}";
+    private static final String EXCEPTION_MSG = "exception details {}";
 
     @ExceptionHandler(Exception.class)
     public final ResponseEntity<Object> handleException(Exception exception) {
         log.error(EXCEPTION_MSG, exception);
-        return new ResponseEntity<>(ApiResponse.ofFailure(HttpStatus.INTERNAL_SERVER_ERROR.value(), exception.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(ApiResponse.ofFailure(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Internal Server Error!"), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(WebExchangeBindException.class)

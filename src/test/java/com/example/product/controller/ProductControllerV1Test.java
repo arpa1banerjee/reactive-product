@@ -63,10 +63,10 @@ class ProductControllerV1Test {
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody()
-                .jsonPath("$.title").isNotEmpty()
-                .jsonPath("$.id").isEqualTo("1234")
-                .jsonPath("$.title").isEqualTo("some product")
-                .jsonPath("$.price").isEqualTo(240.0);
+                .jsonPath("$.payload").isNotEmpty()
+                .jsonPath("$.payload.id").isEqualTo("1234")
+                .jsonPath("$.payload.title").isEqualTo("some product")
+                .jsonPath("$.payload.price").isEqualTo(240.0);
 
         Mockito.verify(productService, times(1)).getProductById("1234");
 

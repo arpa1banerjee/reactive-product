@@ -1,7 +1,7 @@
 # reactive-product
 product service with reactive webflux connecting to couchbase
 
-**coucbase server running in port 8091**
+**couchbase server running in port 8091**
 
 *sample product*
 ```

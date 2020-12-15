@@ -3,8 +3,11 @@ package com.example.product.controller;
 import com.example.product.dto.ProductRequest;
 import com.example.product.model.Product;
 import com.example.product.service.ProductService;
+import com.example.product.util.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -25,8 +28,15 @@ public class ProductControllerV1 {
     }
 
     @GetMapping("/{id}")
-    public Mono<Product> getProductById(@PathVariable String id) {
-        return productService.getProductById(id);
+    public Mono<ResponseEntity<ApiResponse<Product>>> getProductById(@PathVariable String id) {
+        return productService.getProductById(id)
+                .map(product -> new ResponseEntity<>(
+                        ApiResponse.ofSuccess(
+                                HttpStatus.OK.value(),
+                                "Successfully fetched product",
+                                product),
+                        HttpStatus.OK)
+                );
     }
 
     @GetMapping("/rating/{type}/{val}")
@@ -35,8 +45,21 @@ public class ProductControllerV1 {
     }
 
     @PostMapping("/create")
-    public Mono<Product> saveProduct(@Valid @RequestBody ProductRequest productRequest) {
-        return productService.addProduct(productRequest);
+    public Mono<ResponseEntity<ApiResponse<Product>>> saveProduct(@Valid @RequestBody ProductRequest productRequest) {
+        return productService.addProduct(productRequest)
+                .map(product -> new ResponseEntity<>(
+                        ApiResponse.ofSuccess(
+                                HttpStatus.OK.value(),
+                                "Successfully saved product",
+                                product),
+                        HttpStatus.OK)
+                );
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public Mono<Void> deleteProduct(@PathVariable String id) {
+        return productService.deleteProduct(id);
+
     }
 
 }

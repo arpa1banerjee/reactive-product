@@ -82,4 +82,10 @@ public class ProductService {
                 .switchIfEmpty(Flux.error(new ProductNotFoundException("No product found with rating " + type + " " +rating)));
 
     }
+
+    public Mono<Void> deleteProduct(String pid) {
+        return productRepository.deleteById(pid)
+                .log()
+                .onErrorMap(ex -> new ProductNotFoundException("No product found with id " + pid ));
+    }
 }
