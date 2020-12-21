@@ -1,11 +1,11 @@
 package com.example.product.exception.handler;
 
+import com.example.product.util.ApiResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.web.ResourceProperties;
 import org.springframework.boot.autoconfigure.web.reactive.error.AbstractErrorWebExceptionHandler;
 import org.springframework.boot.web.reactive.error.ErrorAttributes;
 import org.springframework.context.ApplicationContext;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.codec.ServerCodecConfigurer;
 import org.springframework.stereotype.Component;
@@ -36,9 +36,9 @@ public class FunctionalWebExceptionHandler extends AbstractErrorWebExceptionHand
         Map<String, Object> errorAttributesMap = getErrorAttributes(serverRequest, false);
         log.info("errorAttributesMap : " + errorAttributesMap);
 
-        return ServerResponse.status(HttpStatus.INTERNAL_SERVER_ERROR)
+        return ServerResponse.status((Integer) errorAttributesMap.get("status"))
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(BodyInserters.fromObject(errorAttributesMap.get("message")));
+                .body(BodyInserters.fromObject(ApiResponse.ofFailure((Integer) errorAttributesMap.get("status"), errorAttributesMap.get("message").toString())));
 
     }
 }

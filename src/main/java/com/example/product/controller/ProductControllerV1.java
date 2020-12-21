@@ -22,7 +22,7 @@ public class ProductControllerV1 {
 
     private final ProductService productService;
 
-    @GetMapping("/all")
+    @GetMapping()
     public Flux<Product> getAllProducts() {
         return productService.getAllProducts();
     }
@@ -44,7 +44,7 @@ public class ProductControllerV1 {
         return productService.getProductsWithRating(type, val);
     }
 
-    @PostMapping("/create")
+    @PostMapping
     public Mono<ResponseEntity<ApiResponse<Product>>> saveProduct(@Valid @RequestBody ProductRequest productRequest) {
         return productService.addProduct(productRequest)
                 .map(product -> new ResponseEntity<>(
@@ -60,6 +60,19 @@ public class ProductControllerV1 {
     public Mono<Void> deleteProduct(@PathVariable String id) {
         return productService.deleteProduct(id);
 
+    }
+
+    @PutMapping("/{id}")
+    public Mono<ResponseEntity<ApiResponse<Product>>> updateProduct(@PathVariable String id,
+                                                                    @Valid @RequestBody ProductRequest productRequest) {
+        return productService.updateProduct(id, productRequest)
+                .map(product -> new ResponseEntity<>(
+                        ApiResponse.ofSuccess(
+                                HttpStatus.OK.value(),
+                                "Successfully updated product",
+                                product),
+                        HttpStatus.OK)
+                );
     }
 
 }

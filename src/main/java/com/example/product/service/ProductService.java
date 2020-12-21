@@ -96,12 +96,6 @@ public class ProductService {
         Mono<Product> productMono = getProductById(id);
 
         return productMono.flatMap(currentProduct -> {
-            if(!Objects.isNull(product.getDescription())) {
-                currentProduct.setDescription(product.getDescription());
-            }
-            if(!Objects.isNull(product.getFileName())) {
-                currentProduct.setFileName(product.getFileName());
-            }
             if(!Objects.isNull(product.getRating())) {
                 currentProduct.setRating(product.getRating());
             }
