@@ -1,5 +1,5 @@
 # reactive-product
-product service with reactive webflux connecting to couchbase
+product service with reactive webflux stack connecting to couchbase
 
 **couchbase server running in port 8091**
 
@@ -19,7 +19,9 @@ product service with reactive webflux connecting to couchbase
 ```
 
 ## List of API(s)
-* **get all products** (Flux) - `/v1/product/all`
-* **get product by id** (Mono) - `/v1/product/{id}` 
-* **get products with rating** (Flux) (equal, greater than, greater than or equal, less than, less than or equal) - `/v1/product/{type}/{rating}`
-* **save product** (Mono) - `/v1/product/create`
+* **get all products** (Flux) - `GET - /v1/product`
+* **get product by id** (Mono) - `GET - /v1/product/{id}` 
+* **get products with rating** (Flux) (equal, greater than, greater than or equal, less than, less than or equal) - `GET - /v1/product/{type}/{rating}`
+* **save product** (Mono) - `POST - /v1/product`
+* **update product** (Mono) - `PUT - /v1/product/{id}`
+* **delete product** (Void) - `DELETE - /v1/product/{id}`
