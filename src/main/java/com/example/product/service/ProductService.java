@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.Objects;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -87,5 +89,28 @@ public class ProductService {
         return productRepository.deleteById(pid)
                 .log()
                 .onErrorMap(ex -> new ProductNotFoundException("No product found with id " + pid ));
+    }
+
+    public Mono<Product> updateProduct(String id, ProductRequest product) {
+
+        Mono<Product> productMono = getProductById(id);
+
+        return productMono.flatMap(currentProduct -> {
+            if(!Objects.isNull(product.getDescription())) {
+                currentProduct.setDescription(product.getDescription());
+            }
+            if(!Objects.isNull(product.getFileName())) {
+                currentProduct.setFileName(product.getFileName());
+            }
+            if(!Objects.isNull(product.getRating())) {
+                currentProduct.setRating(product.getRating());
+            }
+            if(!Objects.isNull(product.getPrice())) {
+                currentProduct.setPrice(product.getPrice());
+            }
+            return productRepository.save(currentProduct)
+                    .log()
+                    .onErrorMap(ex -> new ProductDBException("Exception occurred", ex));
+        });
     }
 }

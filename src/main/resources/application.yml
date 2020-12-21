@@ -6,6 +6,9 @@ server:
 spring:
   application:
     name: product-service
+  jackson:
+    serialization:
+      FAIL_ON_EMPTY_BEANS: false
   couchbase:
     bucket:
       name: product
